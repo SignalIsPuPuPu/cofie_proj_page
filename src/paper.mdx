@@ -1,0 +1,164 @@
+---
+title: "CoFiE — Coarse-to-Fine Evidence Selection"
+theme: light
+favicon: favicon.svg
+description: "CoFiE is a coarse-to-fine evidence selection framework for efficient streaming video understanding."
+thumbnail: og.png
+---
+
+import Header from "./components/Header.astro";
+import HighlightedSection from "./components/HighlightedSection.astro";
+import Figure from "./components/Figure.astro";
+import Picture from "./components/Picture.astro";
+import TwoColumns from "./components/TwoColumns.astro";
+import Wide from "./components/Wide.astro";
+import teaser from "./assets/teaser.png";
+import method from "./assets/method.png";
+import accuracyDrop from "./assets/accuracy-drop.png";
+import latencyProfile from "./assets/latency-profile.png";
+
+<Header
+  title="CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding"
+  conference="EMNLP 2026"
+  authors={[
+    { name: "Jing Jiang", institution: "Harbin Institute of Technology", notes: ["*"] },
+    { name: "Yiran Ling", institution: "Harbin Institute of Technology", notes: ["*"] },
+    { name: "Ruonan Li", institution: "Pengcheng Laboratory" },
+    { name: "Dimitrios Stamoulis", institution: "Harbin Institute of Technology", notes: ["†"] },
+    { name: "Jie Liu", institution: "Harbin Institute of Technology", notes: ["†"] },
+  ]}
+  notes={[
+    { symbol: "*", text: "Equal contribution" },
+    { symbol: "†", text: "Corresponding authors" },
+  ]}
+  links={[
+    { name: "Paper ↗", url: "paper.pdf" },
+    { name: "BibTeX ↓", url: "#citation" },
+    { name: "Contact ↗", url: "mailto:jieliu@hit.edu.cn" },
+  ]}
+/>
+
+<div className="evidence-kicker not-prose" aria-label="Paper summary">
+  <span>Streaming video</span>
+  <i aria-hidden="true"></i>
+  <span>Coarse candidates</span>
+  <i aria-hidden="true"></i>
+  <span>Query evidence</span>
+</div>
+
+<p className="paper-lede">
+  CoFiE removes redundant frames <strong>before expensive visual encoding</strong>,
+  then refines the retained candidates with query-specific evidence during LLM prefill.
+</p>
+
+<Wide>
+  <Figure>
+    <Picture slot="figure" src={teaser} alt="CoFiE teaser comparing accuracy and efficiency across streaming video understanding methods" priority />
+    <Fragment slot="caption">CoFiE establishes a strong accuracy–efficiency trade-off across streaming and long-video understanding benchmarks.</Fragment>
+  </Figure>
+</Wide>
+
+<div className="metric-grid not-prose">
+  <article><strong>2.54×</strong><span>end-to-end speedup</span></article>
+  <article><strong>78.86%</strong><span>StreamingBench accuracy</span></article>
+  <article><strong>68.72%</strong><span>OvO-Bench accuracy</span></article>
+  <article><strong>80%</strong><span>aggressive frame filtering</span></article>
+</div>
+
+<HighlightedSection>
+
+## Abstract
+
+Streaming video understanding requires Vision Language Models (VLLMs) to process growing video streams and answer user questions under tight latency constraints. Existing methods improve efficiency through token pruning and memory-bank schemes, but mainly reduce visual tokens after visual encoding—after the expensive frame encoding cost has already been incurred.
+
+We propose **CoFiE**, a **Co**arse-to-**Fi**ne **E**vidence Selection framework that decouples selection into a coarse, query-agnostic filtering stage before the vision encoder and a fine, query-specific refinement stage during LLM prefill. Experiments show that CoFiE establishes a new state-of-the-art accuracy–efficiency trade-off across multiple video understanding benchmarks, improving over prior methods by up to **3.15%** while accelerating end-to-end inference by up to **2.54×**.
+
+</HighlightedSection>
+
+## Why coarse-to-fine?
+
+Most acceleration methods prune visual tokens only after every frame has already passed through the vision encoder. That reduces part of the LLM workload, but cannot recover the dominant front-end computation. CoFiE aligns each selection decision with the information available—and the computation that can still be avoided—at that stage.
+
+<div className="pipeline not-prose">
+  <article>
+    <span className="stage-tag">01 · Before encoding</span>
+    <h3>Novelty-Guided Frame Filtering</h3>
+    <p>Uses lightweight temporal novelty to discard redundant raw frames while retaining a high-recall candidate set.</p>
+    <em>Query-agnostic · encoder cost avoided</em>
+  </article>
+  <div className="pipeline-arrow" aria-hidden="true">→</div>
+  <article>
+    <span className="stage-tag">02 · During prefill</span>
+    <h3>Query-Specific Evidence Refinement</h3>
+    <p>Ranks encoded candidates with text-to-visual attention and keeps the evidence most relevant to the user query.</p>
+    <em>Query-aware · irrelevant context removed</em>
+  </article>
+</div>
+
+<Wide>
+  <Figure>
+    <Picture slot="figure" src={method} alt="CoFiE architecture with Novelty-Guided Frame Filtering and Query-Specific Evidence Refinement" />
+    <Fragment slot="caption">CoFiE follows the chronology of streaming inference: conservative filtering before visual encoding, followed by selective query-aware refinement during multimodal prefill.</Fragment>
+  </Figure>
+</Wide>
+
+## Accuracy meets efficiency
+
+CoFiE does not treat compression as a fixed trade-off. Removing redundant frames can reduce computation and interference from irrelevant context at the same time. Across the evaluated settings, the method maintains strong accuracy even under aggressive frame removal.
+
+<TwoColumns>
+  <Figure slot="left">
+    <Picture slot="figure" src={accuracyDrop} alt="Accuracy versus frame-drop ratio on OvO-Bench" />
+    <Fragment slot="caption">Accuracy–drop trade-off on OvO-Bench.</Fragment>
+  </Figure>
+  <Figure slot="right">
+    <Picture slot="figure" src={latencyProfile} alt="Stage-wise latency profile comparing CoFiE with streaming video baselines" />
+    <Fragment slot="caption">Stage-wise end-to-end latency breakdown.</Fragment>
+  </Figure>
+</TwoColumns>
+
+<div className="finding not-prose">
+  <span>Key finding</span>
+  <p>Filtering frames before visual encoding produces real end-to-end savings; refining evidence during prefill preserves the visual cues needed for accurate answers.</p>
+</div>
+
+## Method at a glance
+
+Given a video prefix $V_{1:T}$ and user query $q$, CoFiE first produces a compact candidate set $S_c$ before visual encoding. After those candidates interact with the query during multimodal prefill, the framework refines them into a smaller evidence set $S_e$ for answer generation:
+
+$$
+V_{1:T} \xrightarrow{\text{NGFF}} S_c \xrightarrow{\phi} X_c
+\xrightarrow{\text{QER}(q)} S_e \xrightarrow{\text{generate}} y.
+$$
+
+The design is lightweight and compatible with modern video-capable VLLMs. Our implementation uses Qwen3-VL-8B-Instruct as the backbone.
+
+## Release status
+
+The paper is available above. Code, model checkpoints, and qualitative streaming examples are being prepared for public release. This page will be updated as each artifact becomes available.
+
+<div className="release-list not-prose">
+  <span className="is-ready">Paper <b>available</b></span>
+  <span>Code <b>coming soon</b></span>
+  <span>Models <b>coming soon</b></span>
+  <span>Video demos <b>coming soon</b></span>
+</div>
+
+<section id="citation">
+
+## Citation
+
+```bibtex
+@inproceedings{jiang2026cofie,
+  title     = {CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding},
+  author    = {Jiang, Jing and Ling, Yiran and Li, Ruonan and Stamoulis, Dimitrios and Liu, Jie},
+  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2026}
+}
+```
+
+</section>
+
+## Acknowledgments
+
+This work was supported by the National Natural Science Foundation of China (grant No. 62350710797) and the NSFC Excellent Young Scientists Fund Program (Overseas).
