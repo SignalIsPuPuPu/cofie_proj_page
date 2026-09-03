@@ -415,38 +415,6 @@ main .katex-display {
   line-height: 1.55;
 }
 
-.release-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin: 1.8rem 0 3rem;
-}
-
-.release-list span {
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #cadadd;
-  border-radius: 0.75rem;
-  padding: 0.9rem 1rem;
-  color: #294957;
-  background: rgba(255, 255, 255, 0.75);
-}
-
-.release-list b {
-  color: #6e8188;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-}
-
-.release-list .is-ready {
-  border-color: #8acbc6;
-  background: #e7f7f4;
-}
-
-.release-list .is-ready b {
-  color: #087f82;
-}
-
 footer {
   margin-top: 5rem;
   border-top: 1px solid #cadadd;
@@ -483,8 +451,7 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .metric-grid,
-  .release-list {
+  .metric-grid {
     grid-template-columns: 1fr;
   }
 
