@@ -32,24 +32,21 @@ const hasBackground = Astro.slots.has("background");
 <header
   class:list={[
     "paper-header full-bleed relative mb-12",
-    hasBackground && "-mt-16 pt-24 pb-28",
+    hasBackground && "-mt-16 pt-24 pb-20",
   ]}
 >
   {
     hasBackground && (
       <div class="cover absolute inset-0 z-0 overflow-hidden">
         <slot name="background" />
-        {/* Darken the cover so the white header text stays legible. */}
-        <div class="absolute inset-0 bg-black/40" />
+        <div class="header-cover-overlay absolute inset-0" />
       </div>
     )
   }
   <div
     class:list={[
       "relative z-10 mx-auto flex max-w-[50rem] flex-col items-center px-6 text-center",
-      hasBackground
-        ? "gap-10 text-white prose-headings:text-white [text-shadow:0_0_8px_rgba(0,0,0,0.6)]"
-        : "gap-6",
+      "gap-6",
     ]}
   >
     {conference && <div class="conference-pill">{conference}</div>}
@@ -60,7 +57,7 @@ const hasBackground = Astro.slots.has("background");
           <div class="flex flex-col items-center text-center">
             <div class="flex flex-row text-xl">
               {author.url ? (
-                <a class:list={[hasBackground && "not-prose text-blue-200 hover:text-blue-100 underline decoration-dashed underline-offset-4 hover:decoration-solid"]} href={author.url}>{author.name}</a>
+                <a href={author.url}>{author.name}</a>
               ) : (
                 author.name
               )}
@@ -98,9 +95,7 @@ const hasBackground = Astro.slots.has("background");
           {links.map((link) => (
             <a
               href={link.url}
-              class:list={["paper-link flex flex-row items-center gap-2 rounded-full px-5 py-2 text-lg hover:no-underline",
-                hasBackground ? "bg-white hover:bg-zinc-200 text-zinc-800 text-shadow-none shadow-[0_0_8px_rgba(0,0,0,0.6)]" : "bg-zinc-800 text-white hover:bg-black dark:text-zinc-900 dark:hover:bg-zinc-50 dark:bg-zinc-200"
-              ]}
+              class="paper-link flex flex-row items-center gap-2 rounded-full px-5 py-2 text-lg hover:no-underline"
             >
               <span>{link.name}</span>
             </a>
@@ -127,6 +122,16 @@ const hasBackground = Astro.slots.has("background");
     max-width: none;
     max-height: none;
     object-fit: cover;
+    object-position: center 48%;
     border-radius: 0;
+    filter: blur(12px) saturate(0.78) contrast(0.9);
+    opacity: 0.7;
+    transform: scale(1.06);
+  }
+
+  .header-cover-overlay {
+    background:
+      linear-gradient(90deg, rgba(245, 248, 251, 0.88) 0%, rgba(245, 248, 251, 0.62) 52%, rgba(245, 248, 251, 0.76) 100%),
+      linear-gradient(180deg, rgba(245, 248, 251, 0.28) 0%, rgba(245, 248, 251, 0.54) 62%, #f5f8fb 100%);
   }
 </style>

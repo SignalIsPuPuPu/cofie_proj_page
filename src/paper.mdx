@@ -17,6 +17,7 @@ import teaser from "./assets/teaser.png";
 import method from "./assets/method.png";
 import accuracyDrop from "./assets/accuracy-drop.png";
 import latencyProfile from "./assets/latency-profile.png";
+import heroBackground from "./assets/hero-background.png";
 
 <Header
   title="CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding"
@@ -37,7 +38,9 @@ import latencyProfile from "./assets/latency-profile.png";
     { name: "BibTeX ↓", url: "#citation" },
     { name: "Contact ↗", url: "mailto:25S003007@stu.hit.edu.cn" },
   ]}
-/>
+>
+  <img slot="background" src={heroBackground.src} alt="" aria-hidden="true" />
+</Header>
 
 <div className="evidence-kicker not-prose" aria-label="Paper summary">
   <span>Streaming video</span>

@@ -201,6 +201,17 @@ main .katex-display {
   content: "";
 }
 
+.paper-header:has(.cover) {
+  display: flex;
+  min-height: 42rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.paper-header:has(.cover)::before {
+  display: none;
+}
+
 .conference-pill {
   border: 1px solid #9bcbd0;
   border-radius: 999px;
