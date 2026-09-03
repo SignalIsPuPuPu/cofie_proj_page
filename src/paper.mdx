@@ -12,6 +12,7 @@ import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
 import TwoColumns from "./components/TwoColumns.astro";
 import Wide from "./components/Wide.astro";
+import ResultsTables from "./components/ResultsTables.astro";
 import teaser from "./assets/teaser.png";
 import method from "./assets/method.png";
 import accuracyDrop from "./assets/accuracy-drop.png";
@@ -121,6 +122,10 @@ CoFiE does not treat compression as a fixed trade-off. Removing redundant frames
   <span>Key finding</span>
   <p>Filtering frames before visual encoding produces real end-to-end savings; refining evidence during prefill preserves the visual cues needed for accurate answers.</p>
 </div>
+
+<Wide>
+  <ResultsTables />
+</Wide>
 
 ## Method at a glance
 
