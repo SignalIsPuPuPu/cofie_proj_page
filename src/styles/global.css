@@ -226,12 +226,12 @@ main .katex-display {
 }
 
 .paper-title {
-  max-width: 60rem;
+  max-width: 58rem;
   color: #071f2e;
   font-family: var(--font-space-grotesk), sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4.7rem);
+  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
   font-weight: 600;
-  line-height: 0.98;
+  line-height: 1.02;
   letter-spacing: -0.06em;
   text-wrap: balance;
 }
