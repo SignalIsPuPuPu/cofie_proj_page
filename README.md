@@ -2,6 +2,8 @@
 
 Official project page for **CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding** (EMNLP 2026).
 
+**Project page:** [https://SignalIsPuPuPu.github.io/cofie_proj_page/](https://SignalIsPuPuPu.github.io/cofie_proj_page/)
+
 ## Local development
 
 Requirements: Node.js 24 or later.

@@ -55,12 +55,10 @@ import heroBackground from "./assets/hero-background.png";
   then refines the retained candidates with query-specific evidence during LLM prefill.
 </p>
 
-<Wide>
-  <Figure>
-    <Picture slot="figure" src={teaser} alt="CoFiE teaser comparing accuracy and efficiency across streaming video understanding methods" priority />
-    <Fragment slot="caption">CoFiE establishes a strong accuracy–efficiency trade-off across streaming and long-video understanding benchmarks.</Fragment>
-  </Figure>
-</Wide>
+<Figure>
+  <Picture slot="figure" src={teaser} alt="CoFiE teaser comparing accuracy and efficiency across streaming video understanding methods" priority />
+  <Fragment slot="caption">CoFiE establishes a strong accuracy–efficiency trade-off across streaming and long-video understanding benchmarks.</Fragment>
+</Figure>
 
 <div className="metric-grid not-prose">
   <article><strong>2.54×</strong><span>end-to-end speedup</span></article>
@@ -99,12 +97,10 @@ Most acceleration methods prune visual tokens only after every frame has already
   </article>
 </div>
 
-<Wide>
-  <Figure>
-    <Picture slot="figure" src={method} alt="CoFiE architecture with Novelty-Guided Frame Filtering and Query-Specific Evidence Refinement" />
-    <Fragment slot="caption">CoFiE follows the chronology of streaming inference: conservative filtering before visual encoding, followed by selective query-aware refinement during multimodal prefill.</Fragment>
-  </Figure>
-</Wide>
+<Figure>
+  <Picture slot="figure" src={method} alt="CoFiE architecture with Novelty-Guided Frame Filtering and Query-Specific Evidence Refinement" />
+  <Fragment slot="caption">CoFiE follows the chronology of streaming inference: conservative filtering before visual encoding, followed by selective query-aware refinement during multimodal prefill.</Fragment>
+</Figure>
 
 ## Accuracy meets efficiency
 
@@ -146,11 +142,26 @@ The design is lightweight and compatible with modern video-capable VLLMs. Our im
 ## Citation
 
 ```bibtex
-@inproceedings{jiang2026cofie,
-  title     = {CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding},
-  author    = {Jiang, Jing and Ling, Yiran and Li, Ruonan and Stamoulis, Dimitrios and Liu, Jie},
-  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
-  year      = {2026}
+@inproceedings{jiang-etal-2026-cofie,
+  title = "CoFiE: Coarse-to-Fine Evidence Selection for Efficient Streaming Video Understanding",
+  author = "Jiang, Jing  and
+    Ling, Yiran  and
+    Li, Ruonan  and
+    Stamoulis, Dimitrios  and
+    Liu, Jie",
+  editor = "Lee, Hung-Yi  and
+    Dev, Sunipa  and
+    Li, Junyi Jessy  and
+    Elliott, Desmond",
+  booktitle = "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
+  month = oct,
+  year = "2026",
+  address = "Budapest, Hungary",
+  publisher = "Association for Computational Linguistics",
+  url = "https://aclanthology.org/2026.emnlp-main.518/",
+  doi = "10.18653/2026.emnlp-main.518",
+  pages = "11893--11905",
+  ISBN = "979-8-89176-459-0",
 }
 ```
 
